@@ -1,0 +1,30 @@
+{
+    "created": "2020-03-20T07:10:47.827673",
+    "id": "",
+    "iteration": "",
+    "predictions": [
+        {
+            "boundingBox": {
+                "height": 0.66167289,
+                "left": -0.03923762,
+                "top": 0.12781593,
+                "width": 0.70003178
+            },
+            "probability": 0.90128148,
+            "tagId": 0,
+            "tagName": "delivery truck"
+        },
+        {
+            "boundingBox": {
+                "height": 0.63733053,
+                "left": 0.25220079,
+                "top": 0.0876643,
+                "width": 0.53331227
+            },
+            "probability": 0.59745145,
+            "tagId": 0,
+            "tagName": "delivery truck"
+        }
+    ],
+    "project": ""
+}

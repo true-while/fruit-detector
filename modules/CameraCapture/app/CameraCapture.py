@@ -54,6 +54,7 @@ class CameraCapture(object):
             #case of a video file
             self.isWebcam = False
         self.imageProcessingEndpoint = imageProcessingEndpoint
+        print ('params:' + imageProcessingParams)
         if imageProcessingParams == "":
             self.imageProcessingParams = "" 
         else:
@@ -137,7 +138,7 @@ class CameraCapture(object):
         frameCounter = 0
         perfForOneFrameInMs = None
         while True:
-            #ime.sleep(30)
+            #time.sleep(30)
             if self.showVideo or self.verbose:
                 startOverall = time.time()
             if self.verbose:
@@ -247,7 +248,7 @@ class CameraCapture(object):
                         break
 
             if self.verbose:
-                perfForOneFrameInMs = int((time.time()-startOverall) * 1000)
+                perfForOneFrameInMs = int((time.time()-startOverall) * 1000) #int((time.time()-startOverall) * 1000)
                 print("Total time for one frame: " + self.__displayTimeDifferenceInMs(time.time(), startOverall))
 
     def __exit__(self, exception_type, exception_value, traceback):

@@ -22,7 +22,7 @@
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-agent:1.2.0",
+              "image": "mcr.microsoft.com/azureiotedge-agent:1.2.2",
               "createOptions": {}
             }
           },
@@ -31,7 +31,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-hub:1.2.0",
+              "image": "mcr.microsoft.com/azureiotedge-hub:1.2.2",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
@@ -78,10 +78,12 @@
             "restartPolicy": "always",
             "env": {
               "VIDEO_PATH": {"value": "0"},
+              "IMAGE_PROCESSING_PARAMS": {"value": "{\"returnLabels\": \"true\"}"},
               "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://classifier:80/image"},
-              "RESIZE_WIDTH":  {"value": "256"},
-              "RESIZE_HEIGHT":  {"value": "256"},
-              "SHOW_VIDEO":  {"value": "True"}
+              "RESIZE_WIDTH":  {"value": "666"},
+              "RESIZE_HEIGHT":  {"value": "500"},
+              "SHOW_VIDEO":  {"value": "True"},
+              "ANNOTATE": {"value": "True"}
             },
             "settings": {
               "image": "${MODULES.CameraCapture}",

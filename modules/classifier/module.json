@@ -4,7 +4,7 @@
     "image": {
         "repository": "alexacrdemo.azurecr.io/classifier",
         "tag": {
-            "version": "0.1.45",
+            "version": "0.2.23",
             "platforms": {
                 "amd64": "./Dockerfile",
                 "amd64.debug": "./Dockerfile",

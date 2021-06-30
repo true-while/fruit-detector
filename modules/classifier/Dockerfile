@@ -3,7 +3,7 @@
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 RUN apt update && apt install -y libjpeg62-turbo libopenjp2-7 libtiff5 libatlas-base-dev libgl1-mesa-glx
-RUN apt-get install gcc libffi-dev libssl-dev python-dev g++ 
+RUN apt-get install gcc libffi-dev libssl-dev python-dev libfreetype6-dev 
 RUN pip install --upgrade pip
 RUN pip install wheel
 RUN pip install flask pillow --index-url 'https://www.piwheels.org/simple'

@@ -1,6 +1,7 @@
 import json
 import os
 import io
+from typing import cast
 
 from azure.storage.blob import BlobServiceClient
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance
@@ -96,7 +97,10 @@ def upload(local_file_name):
     print("connect: " + connection_string)
     blob_service_client = BlobServiceClient.from_connection_string(conn_str=connection_string)
 
-    blob_service_client.create_container(container_name)
+    try:
+        blob_service_client.create_container(container_name)
+    except Exception as e:
+        print('Ex:', str(e))
 
     local_path = os.path.expanduser("./")
 
@@ -107,13 +111,18 @@ def upload(local_file_name):
 
     print("\nUploading to Blob storage as blob" + local_file_name)
 
-    blob_service_client.create_blob_from_path(container_name, local_file_name, full_path_to_file)
+    #blob_service_client.create_blob_from_path(container_name, local_file_name, full_path_to_file)
+    blob_client = blob_service_client.get_blob_client(container=container_name,blob=local_file_name)
 
+    with open(full_path_to_file,"rb") as data:
+        blob_client.upload_blob(data,overwrite=True)
 
 def draw_borders(img, analysis, input_file, dest_file):
-    img = Image.open(input_file)
+    #img = Image.open(input_file)
+    #print('file opend')
     test_img_w, test_img_h = img.size
-
+    print('size w:' + test_img_w)
+    print('size h:' + test_img_h)
     object_colors = {
         "apple": "lightgreen",
         "banana": "yellow",
@@ -121,19 +130,20 @@ def draw_borders(img, analysis, input_file, dest_file):
     }
     draw = ImageDraw.Draw(img)
 
-    for prediction in analysis.predictions:
+    for prediction in analysis["predictions"]:
         color = 'white' # default for 'other' object tags
-        if (prediction.probability*100) > 50:
-            if prediction.tagName in object_colors:
-                color = object_colors[prediction.tagName]
-            left = prediction.boundingBox.left * test_img_w 
-            top = prediction.boundingBox.top * test_img_h 
-            height = prediction.boundingBox.height * test_img_h
-            width =  prediction.boundingBox.width * test_img_w
+        if (prediction["probability"]*100) > 40:
+            if prediction["tagName"] in object_colors:
+                color = object_colors[prediction["tagName"]]
+            box = prediction["boundingBox"]
+            left = box["left"] * test_img_w 
+            top = box["top"] * test_img_h 
+            height = box["height"] * test_img_h
+            width =  box["width"] * test_img_w
             points = ((left,top), (left+width,top), (left+width,top+height), (left,top+height),(left,top))
             draw.line(points, fill=color, width=3)
             draw.rectangle(((left,top-30), (left+width,top-2)), fill=color)
-            draw.text((left+2, top-28), prediction.tagName + "\n{0:.2f}%".format(prediction.probability * 100), fill='black', font=ImageFont.truetype("arial"))
+            draw.text((left+2, top-28), prediction["tagName"] + "\n{0:.2f}%".format(prediction["probability"] * 100), fill='black', font=ImageFont.truetype("arial"))
  
     img.save(dest_file, "PNG")
     print('done img')

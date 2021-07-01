@@ -192,9 +192,9 @@ class CameraCapture(object):
 
                 #Encode frame to send over HTTP
                 if self.nbOfPreprocessingSteps == 0:
-                    encodedFrame = cv2.imencode(".jpg", frame)[1].tostring()
+                    encodedFrame = cv2.imencode(".png", frame)[1].tostring()
                 else:
-                    encodedFrame = cv2.imencode(".jpg", preprocessedFrame)[1].tostring()
+                    encodedFrame = cv2.imencode(".png", preprocessedFrame)[1].tostring()
 
                 if self.verbose:
                     print("Time to encode a frame for processing: " + self.__displayTimeDifferenceInMs(time.time(), startEncodingForProcessing))
@@ -222,14 +222,14 @@ class CameraCapture(object):
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(frame, response)
-                        self.displayFrame = cv2.imencode('.jpg', frame)[1].tobytes()
+                        self.displayFrame = cv2.imencode('.png', frame)[1].tobytes()
                 else:
                         if self.verbose and (perfForOneFrameInMs is not None):
                             cv2.putText(preprocessedFrame, "FPS " + str(round(10/(0.001 + perfForOneFrameInMs), 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(preprocessedFrame, response)
-                        self.displayFrame = cv2.imencode('.jpg', preprocessedFrame)[1].tobytes()
+                        self.displayFrame = cv2.imencode('.png', preprocessedFrame)[1].tobytes()
                 #except Exception as e:
                 #    print("Could not display the video to a web browser.") 
                 #    print('Excpetion -' + str(e))

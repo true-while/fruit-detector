@@ -126,7 +126,7 @@ def draw_borders(analysis, input_file, dest_file):
             "apple": "lightgreen",
             "banana": "yellow",
             "orange": "orange",
-            "grapes": "black"
+            "grapes": "lightblue"
         }
         draw = ImageDraw.Draw(img)
         font = ImageFont.load_default()
@@ -145,7 +145,7 @@ def draw_borders(analysis, input_file, dest_file):
                 draw.line(points, fill=color, width=3)
                 draw.rectangle(((left,top-30), (left+width,top-2)), fill=color)
                 draw.text((left+2, top-28), prediction["tagName"] + "\n{0:.2f}%".format(prediction["probability"] * 100), fill='black', font=font)
-                print(("found " + prediction["tagName"] + "wiht {0:.2f}%").format(prediction["probability"] * 100))
+                print(("found " + prediction["tagName"] + " wiht {0:.2f}%").format(prediction["probability"] * 100))
 
         print('done img')
 

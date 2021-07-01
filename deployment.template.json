@@ -78,12 +78,12 @@
             "restartPolicy": "always",
             "env": {
               "VIDEO_PATH": {"value": "0"},
-              "IMAGE_PROCESSING_PARAMS": {"value": "{\"returnLabels\": \"true\"}"},
               "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://classifier:80/image"},
-              "RESIZE_WIDTH":  {"value": "666"},
-              "RESIZE_HEIGHT":  {"value": "500"},
+              "RESIZE_WIDTH":  {"value": "1024"},
+              "RESIZE_HEIGHT":  {"value": "768"},
               "SHOW_VIDEO":  {"value": "True"},
-              "ANNOTATE": {"value": "True"}
+              "ANNOTATE": {"value": "True"},
+              "VERBOSE": {"value": "True"}
             },
             "settings": {
               "image": "${MODULES.CameraCapture}",

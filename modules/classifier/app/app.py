@@ -36,7 +36,7 @@ def index():
 @app.route('/<project>/detect/iterations/<publishedName>/image', methods=['POST'])
 @app.route('/<project>/detect/iterations/<publishedName>/image/nostore', methods=['POST'])
 def predict_image_handler(project=None, publishedName=None):
-    try:
+    #try:
         imageData = None
         if ('imageData' in request.files):
             imageData = request.files['imageData']
@@ -57,16 +57,16 @@ def predict_image_handler(project=None, publishedName=None):
         results = predict_image(img)
 
         print('Create borders')
-        draw_borders(img, results, src_filename, dst_filename)
+        draw_borders(results, src_filename, dst_filename)
 
         print('Upload results')
         upload(dst_filename)    
 
         return jsonify(results)
 
-    except Exception as e:
-        print('EXCEPTION:', str(e))
-        return 'Error processing image', 500
+    #except Exception as e:
+    #    print('EXCEPTION:', str(e))
+    #    return 'Error processing image', 500
 
 
 # Like the CustomVision.ai Prediction service /url route handles url's
@@ -117,36 +117,41 @@ def upload(local_file_name):
     with open(full_path_to_file,"rb") as data:
         blob_client.upload_blob(data,overwrite=True)
 
-def draw_borders(img, analysis, input_file, dest_file):
-    #img = Image.open(input_file)
-    #print('file opend')
-    test_img_w, test_img_h = img.size
-    print('size w:' + test_img_w)
-    print('size h:' + test_img_h)
-    object_colors = {
-        "apple": "lightgreen",
-        "banana": "yellow",
-        "orange": "orange"
-    }
-    draw = ImageDraw.Draw(img)
+def draw_borders(analysis, input_file, dest_file):
+    #try:
+        img = Image.open(input_file)
+        #print('file opend')
+        test_img_w, test_img_h = img.size
+        #print('size w:{} h:{}'.format(test_img_w,test_img_h))
+        object_colors = {
+            "apple": "lightgreen",
+            "banana": "yellow",
+            "orange": "orange"
+        }
+        draw = ImageDraw.Draw(img)
+        font = ImageFont.load_default()
 
-    for prediction in analysis["predictions"]:
-        color = 'white' # default for 'other' object tags
-        if (prediction["probability"]*100) > 40:
-            if prediction["tagName"] in object_colors:
-                color = object_colors[prediction["tagName"]]
-            box = prediction["boundingBox"]
-            left = box["left"] * test_img_w 
-            top = box["top"] * test_img_h 
-            height = box["height"] * test_img_h
-            width =  box["width"] * test_img_w
-            points = ((left,top), (left+width,top), (left+width,top+height), (left,top+height),(left,top))
-            draw.line(points, fill=color, width=3)
-            draw.rectangle(((left,top-30), (left+width,top-2)), fill=color)
-            draw.text((left+2, top-28), prediction["tagName"] + "\n{0:.2f}%".format(prediction["probability"] * 100), fill='black', font=ImageFont.truetype("arial"))
- 
-    img.save(dest_file, "PNG")
-    print('done img')
+        for prediction in analysis["predictions"]:
+            color = 'white' # default for 'other' object tags
+            if (prediction["probability"]*100) > 50:
+                if prediction["tagName"] in object_colors:
+                    color = object_colors[prediction["tagName"]]
+                box = prediction["boundingBox"]
+                left = box["left"] * test_img_w 
+                top = box["top"] * test_img_h 
+                height = box["height"] * test_img_h
+                width =  box["width"] * test_img_w
+                points = ((left,top), (left+width,top), (left+width,top+height), (left,top+height),(left,top))
+                draw.line(points, fill=color, width=3)
+                draw.rectangle(((left,top-30), (left+width,top-2)), fill=color)
+                draw.text((left+2, top-28), prediction["tagName"] + "\n{0:.2f}%".format(prediction["probability"] * 100), fill='black', font=font)
+        
+        print('done img')
+
+    #except Exception as e:
+    #   print('borders exception:', str(e))
+    
+        img.save(dest_file, "PNG")
 
 if __name__ == '__main__':
     # Load and intialize the model

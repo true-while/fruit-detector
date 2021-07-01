@@ -54,7 +54,6 @@ class CameraCapture(object):
             #case of a video file
             self.isWebcam = False
         self.imageProcessingEndpoint = imageProcessingEndpoint
-        print ('params:' + imageProcessingParams)
         if imageProcessingParams == "":
             self.imageProcessingParams = "" 
         else:
@@ -95,9 +94,10 @@ class CameraCapture(object):
             self.imageServer.start()
 
     def __annotate(self, frame, response):
+        print(json.dumps(response))
         AnnotationParserInstance = AnnotationParser()
         #TODO: Make the choice of the service configurable
-        listOfRectanglesToDisplay = AnnotationParserInstance.getCV2RectanglesFromProcessingService1(response)
+        listOfRectanglesToDisplay = AnnotationParserInstance.getCV2RectanglesFromProcessingService2(response)
         for rectangle in listOfRectanglesToDisplay:
             cv2.rectangle(frame, (rectangle(0), rectangle(1)), (rectangle(2), rectangle(3)), (0,0,255),4)
         return
@@ -118,7 +118,7 @@ class CameraCapture(object):
         return json.dumps(response.json())
 
     def __displayTimeDifferenceInMs(self, endTime, startTime):
-        return str(int((endTime-startTime) * 1000)) + " ms"
+        return str(int((endTime-startTime) * 10)) + "00 ms"
 
     def __enter__(self):
         if self.isWebcam:
@@ -215,24 +215,24 @@ class CameraCapture(object):
 
             #Display frames
             if self.showVideo:
-                try:
-                    if self.nbOfPreprocessingSteps == 0:
+                #try:
+                if self.nbOfPreprocessingSteps == 0:
                         if self.verbose and (perfForOneFrameInMs is not None):
-                            cv2.putText(frame, "FPS " + str(round(1000/perfForOneFrameInMs, 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
+                            cv2.putText(frame, "FPS " + str(round(10/(0.001+perfForOneFrameInMs), 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(frame, response)
                         self.displayFrame = cv2.imencode('.jpg', frame)[1].tobytes()
-                    else:
+                else:
                         if self.verbose and (perfForOneFrameInMs is not None):
-                            cv2.putText(preprocessedFrame, "FPS " + str(round(1000/perfForOneFrameInMs, 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
+                            cv2.putText(preprocessedFrame, "FPS " + str(round(10/(0.001 + perfForOneFrameInMs), 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(preprocessedFrame, response)
                         self.displayFrame = cv2.imencode('.jpg', preprocessedFrame)[1].tobytes()
-                except Exception as e:
-                    print("Could not display the video to a web browser.") 
-                    print('Excpetion -' + str(e))
+                #except Exception as e:
+                #    print("Could not display the video to a web browser.") 
+                #    print('Excpetion -' + str(e))
                 if self.verbose:
                     if 'startDisplaying' in locals():
                         print("Time to display frame: " + self.__displayTimeDifferenceInMs(time.time(), startDisplaying))
@@ -240,15 +240,15 @@ class CameraCapture(object):
                         print("Time to display frame: " + self.__displayTimeDifferenceInMs(time.time(), startSendingToEdgeHub))
                     else:
                         print("Time to display frame: " + self.__displayTimeDifferenceInMs(time.time(), startEncodingForProcessing))
-                perfForOneFrameInMs = int((time.time()-startOverall) * 1000)
+                perfForOneFrameInMs = int((time.time()-startOverall) * 10)
                 if not self.isWebcam:
-                    waitTimeBetweenFrames = max(int(1000 / self.capture.get(cv2.CAP_PROP_FPS))-perfForOneFrameInMs, 1)
+                    waitTimeBetweenFrames = max(int(10 / self.capture.get(cv2.CAP_PROP_FPS))-perfForOneFrameInMs, 1)
                     print("Wait time between frames :" + str(waitTimeBetweenFrames))
                     if cv2.waitKey(waitTimeBetweenFrames) & 0xFF == ord('q'):
                         break
 
             if self.verbose:
-                perfForOneFrameInMs = int((time.time()-startOverall) * 1000) #int((time.time()-startOverall) * 1000)
+                perfForOneFrameInMs = int((time.time()-startOverall) * 10) #int((time.time()-startOverall) * 1000)
                 print("Total time for one frame: " + self.__displayTimeDifferenceInMs(time.time(), startOverall))
 
     def __exit__(self, exception_type, exception_value, traceback):

@@ -6,7 +6,7 @@
 import sys
 import tensorflow as tf
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image
 from urllib.request import urlopen
 from datetime import datetime
 from object_detection import ObjectDetection
@@ -27,7 +27,7 @@ class TFObjectDetection(ObjectDetection):
             tf.import_graph_def(graph_def, input_map={"Placeholder:0": input_data}, name="")
 
     def predict(self, preprocessed_image):
-        inputs = np.array(preprocessed_image, dtype=np.float)[:, :, (2, 1, 0)]  # RGB -> BGR
+        inputs = np.array(preprocessed_image)[:, :, (2, 1, 0)]  # RGB -> BGR
 
         with tf.compat.v1.Session(graph=self.graph) as sess:
             output_tensor = sess.graph.get_tensor_by_name('model_outputs:0')

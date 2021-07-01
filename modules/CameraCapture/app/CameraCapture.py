@@ -118,7 +118,7 @@ class CameraCapture(object):
         return json.dumps(response.json())
 
     def __displayTimeDifferenceInMs(self, endTime, startTime):
-        return str(int((endTime-startTime) * 10)) + "00 ms"
+        return str(int((endTime-startTime) * 100)) + "00 ms"
 
     def __enter__(self):
         if self.isWebcam:
@@ -218,7 +218,7 @@ class CameraCapture(object):
                 #try:
                 if self.nbOfPreprocessingSteps == 0:
                         if self.verbose and (perfForOneFrameInMs is not None):
-                            cv2.putText(frame, "FPS " + str(round(10/(0.001+perfForOneFrameInMs), 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
+                            cv2.putText(frame, "FPS " + str(round(100/(0.001+perfForOneFrameInMs), 2)),(10, 35),cv2.FONT_HERSHEY_SIMPLEX,1.0,(0,0,255), 2)
                         if self.annotate:
                             #TODO: fix bug with annotate function
                             self.__annotate(frame, response)
@@ -240,15 +240,15 @@ class CameraCapture(object):
                         print("Time to display frame: " + self.__displayTimeDifferenceInMs(time.time(), startSendingToEdgeHub))
                     else:
                         print("Time to display frame: " + self.__displayTimeDifferenceInMs(time.time(), startEncodingForProcessing))
-                perfForOneFrameInMs = int((time.time()-startOverall) * 10)
+                perfForOneFrameInMs = int((time.time()-startOverall) * 100)
                 if not self.isWebcam:
-                    waitTimeBetweenFrames = max(int(10 / self.capture.get(cv2.CAP_PROP_FPS))-perfForOneFrameInMs, 1)
+                    waitTimeBetweenFrames = max(int(100 / self.capture.get(cv2.CAP_PROP_FPS))-perfForOneFrameInMs, 1)
                     print("Wait time between frames :" + str(waitTimeBetweenFrames))
                     if cv2.waitKey(waitTimeBetweenFrames) & 0xFF == ord('q'):
                         break
 
             if self.verbose:
-                perfForOneFrameInMs = int((time.time()-startOverall) * 10) #int((time.time()-startOverall) * 1000)
+                perfForOneFrameInMs = int((time.time()-startOverall) * 100) #int((time.time()-startOverall) * 1000)
                 print("Total time for one frame: " + self.__displayTimeDifferenceInMs(time.time(), startOverall))
 
     def __exit__(self, exception_type, exception_value, traceback):

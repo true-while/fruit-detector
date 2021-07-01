@@ -60,10 +60,9 @@ def predict_image_handler(project=None, publishedName=None):
         draw_borders(results, src_filename, dst_filename)
 
         print('Upload results')
-        upload(dst_filename)    
+        upload(dst_filename)   
 
         return jsonify(results)
-
     #except Exception as e:
     #    print('EXCEPTION:', str(e))
     #    return 'Error processing image', 500
@@ -126,14 +125,15 @@ def draw_borders(analysis, input_file, dest_file):
         object_colors = {
             "apple": "lightgreen",
             "banana": "yellow",
-            "orange": "orange"
+            "orange": "orange",
+            "grapes": "black"
         }
         draw = ImageDraw.Draw(img)
         font = ImageFont.load_default()
 
         for prediction in analysis["predictions"]:
             color = 'white' # default for 'other' object tags
-            if (prediction["probability"]*100) > 50:
+            if (prediction["probability"]*100) > 15:
                 if prediction["tagName"] in object_colors:
                     color = object_colors[prediction["tagName"]]
                 box = prediction["boundingBox"]
@@ -145,7 +145,8 @@ def draw_borders(analysis, input_file, dest_file):
                 draw.line(points, fill=color, width=3)
                 draw.rectangle(((left,top-30), (left+width,top-2)), fill=color)
                 draw.text((left+2, top-28), prediction["tagName"] + "\n{0:.2f}%".format(prediction["probability"] * 100), fill='black', font=font)
-        
+                print(("found " + prediction["tagName"] + "wiht {0:.2f}%").format(prediction["probability"] * 100))
+
         print('done img')
 
     #except Exception as e:

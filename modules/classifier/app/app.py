@@ -133,7 +133,7 @@ def draw_borders(analysis, input_file, dest_file):
 
         for prediction in analysis["predictions"]:
             color = 'white' # default for 'other' object tags
-            if (prediction["probability"]*100) > 15:
+            if (prediction["probability"]*100) > 30:
                 if prediction["tagName"] in object_colors:
                     color = object_colors[prediction["tagName"]]
                 box = prediction["boundingBox"]

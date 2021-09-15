@@ -77,7 +77,7 @@ BLOB_KEY=<blob account key>
 
 1. Make sure the build ends up successfully and your Azure Container Registry has required container images.
 
-    ![ACR](/docs/acr.png)
+    ![ACR](/Docs/acr.png)
 
 
 ## Prepare RPi to Host Iot Edge
@@ -102,7 +102,7 @@ BLOB_KEY=<blob account key>
 
 1. Finlay you should have your IoTEdge modules running on RPi without errors. 
     
-    ![output](/docs/iothub-screen.png)
+    ![output](/Docs/iothub-screen.png)
 
 
 
@@ -121,27 +121,27 @@ BLOB_KEY=<blob account key>
 
 1. Left the objects for identification on the solid background with about 3 fit distance from the camera.The blurry images will be unrecognizable.
 
-    ![setup example](/docs/PiCamSetUp-sm.png)
+    ![setup example](/Docs/PiCamSetUp-sm.png)
 
 1. Make sure that there are enough lights in the picture area. 
 
 1. You can also use the camera's tool on the Pi to take a few snapshots of objects and deploy images to the Custom vision and tag them to train better models.
 
-    ![real image](/docs/camera-taken.png)
+    ![real image](/Docs/camera-taken.png)
 
 ## Monitor and diagnose applications.
 
 1. From the SSH console you can use commands like `iotedge logs camera-capture` or `iotedge logs classifier` to monitor errors and issues. Correct output of the classifier should looks as following:
 
-    ![output](/docs/rp-result.png)
+    ![output](/Docs/rp-result.png)
 
 1. The `camera-capture` module is hosting a local web site on port **5052**. You can access it to monitor current camera setup. The image is updated once in a minute..
 
-    ![local website](/docs/fruits-sm.png)
+    ![local website](/Docs/fruits-sm.png)
 
 1. Finlay if the classification is completed successfully the boundaries will be created on the image and analyzed images will be uploaded to the storage account you set up above.
 
-    ![analyzed](/docs/analyzed-group.png)
+    ![analyzed](/Docs/analyzed-group.png)
 
 
 # References

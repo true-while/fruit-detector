@@ -2,5 +2,8 @@
     "azure-iot-edge.defaultPlatform": {
         "platform": "arm32v7",
         "alias": null
-    }
+    },
+    "cSpell.words": [
+        "analized"
+    ]
 }

@@ -4,6 +4,7 @@
 This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. Custom Vision is an image classifier that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add meaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwidth costs and even running offline.
 
 The project consists of the custom vision model deployed on Raspberry PI and detecting objects visible through the camera. 
+
 ![schema](/Docs/schema.png)
 
 ## Toolbox.
@@ -22,10 +23,11 @@ The project consists of the custom vision model deployed on Raspberry PI and det
 
 1. You should have the following prerequisites in place:
 
-    - A free or standard-tier IoT Hub in Azure.
+    - A free or standard-tier [IoT Hub](https://docs.microsoft.com/en-us/azure/iot-hub/) in Azure.
     - A container registry, like [Azure Container Registry](https://docs.microsoft.com/en-us/azure/container-registry/?view=iotedge-2020-11).
     - [Visual Studio Code](https://code.visualstudio.com/) configured with the [Azure IoT Tools](https://marketplace.visualstudio.com/items?itemName=vsciot-vscode.azure-iot-tools).
     - [Docker CE](https://docs.docker.com/install/) is configured to run Linux containers.
+ 
 
 1. To develop an IoT Edge module with the Custom Vision service, install the following additional prerequisites on your development machine:
 
@@ -56,7 +58,7 @@ The project consists of the custom vision model deployed on Raspberry PI and det
 
 1. Make sure in VS Code you select `arm32v7` as target platform.
 
-1. Update .evn file in root folder with blob account details where analyzed files should be uploaded and credential for Azure Container Registry.
+1. Update **.evn** file in root folder with blob account details where analyzed files should be uploaded and credential for Azure Container Registry.
 
 ```ini
 CONTAINER_REGISTRY_USERNAME=<your acr short name>
@@ -64,6 +66,8 @@ CONTAINER_REGISTRY_PASSWORD=4nKYmt8m=<your acr user password>
 BLOB_ACC=<blob account short name>
 BLOB_KEY=<blob account key>
 ```
+
+1. In the `deployment.template.json` update registryCredentials with `full` name of your ACR.
 
 1. From terminal window in VS Code run command to sign in `az acr login -n <short name of your ACR>`.
 
@@ -134,6 +138,8 @@ BLOB_KEY=<blob account key>
 1. From the SSH console you can use commands like `iotedge logs camera-capture` or `iotedge logs classifier` to monitor errors and issues. Correct output of the classifier should looks as following:
 
     ![output](/Docs/rp-result.png)
+
+    > [troubleshot iotedge service](https://docs.microsoft.com/en-us/azure/iot-edge/troubleshoot?view=iotedge-2020-11)
 
 1. The `camera-capture` module is hosting a local web site on port **5052**. You can access it to monitor current camera setup. The image is updated once in a minute..
 

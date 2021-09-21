@@ -1,4 +1,5 @@
-azure-iothub-device-client
+azure-iot-device
+azure-mgmt-iothub
 numpy
 opencv-contrib-python
 requests

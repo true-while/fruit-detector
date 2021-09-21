@@ -57,7 +57,7 @@
           }
         },
         "modules": {
-          "classifier": {
+          "ObjDetector": {
             "version": "1.5",
             "type": "docker",
             "status": "running",
@@ -67,7 +67,7 @@
               "BLOB_KEY":  {"value": "$BLOB_KEY"}
             },            
             "settings": {
-              "image": "${MODULES.classifier}",
+              "image": "${MODULES.ObjDetector}",
               "createOptions": {}
             }
           },
@@ -78,7 +78,7 @@
             "restartPolicy": "always",
             "env": {
               "VIDEO_PATH": {"value": "0"},
-              "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://classifier:80/image"},
+              "IMAGE_PROCESSING_ENDPOINT":  {"value": "http://objdetector:80/image"},
               "RESIZE_WIDTH":  {"value": "1024"},
               "RESIZE_HEIGHT":  {"value": "768"},
               "SHOW_VIDEO":  {"value": "True"},

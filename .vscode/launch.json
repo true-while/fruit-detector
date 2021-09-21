@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "classifier Remote Debug (Python)",
+      "name": "objdetector Remote Debug (Python)",
       "type": "python",
       "request": "attach",
       "port": 5678,
@@ -11,31 +11,31 @@
       "redirectOutput": true,
       "pathMappings": [
         {
-          "localRoot": "${workspaceFolder}/modules/classifier",
+          "localRoot": "${workspaceFolder}/modules/objdetector",
           "remoteRoot": "/app"
         }
       ],
       "windows": {
         "pathMappings": [
           {
-            "localRoot": "${workspaceFolder}\\modules\\classifier",
+            "localRoot": "${workspaceFolder}\\modules\\objdetector",
             "remoteRoot": "/app"
           }
         ]
       }
     },
     {
-      "name": "classifier Local Debug (Python)",
+      "name": "objdetector Local Debug (Python)",
       "type": "python",
       "request": "launch",
-      "program": "${workspaceFolder}/modules/classifier/main.py",
+      "program": "${workspaceFolder}/modules/objdetector/main.py",
       "console": "integratedTerminal",
       "env": {
         "EdgeHubConnectionString": "${config:azure-iot-edge.EdgeHubConnectionString}",
         "EdgeModuleCACertificateFile": "${config:azure-iot-edge.EdgeModuleCACertificateFile}"
       },
       "windows": {
-        "program": "${workspaceFolder}\\modules\\classifier\\main.py"
+        "program": "${workspaceFolder}\\modules\\objdetector\\main.py"
       }
     },
     {

@@ -1,7 +1,7 @@
 # Custom Vision + Azure IoT Edge on a Raspberry Pi 3
 
 
-This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. Custom Vision is an image classifier that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add meaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwidth costs and even running offline.
+This is a sample showing how to deploy a Custom Vision model to a Raspberry Pi 3 device running Azure IoT Edge. Custom Vision is an image classifier and object detector that is trained in the cloud with your own images. IoT Edge gives you the possibility to run this model next to your cameras, where the video data is being generated. You can thus add meaning to your video streams to detect road traffic conditions, estimate wait lines, find parking spots, etc. while keeping your video footage private, lowering your bandwidth costs and even running offline.
 
 The project consists of the custom vision model deployed on Raspberry PI and detecting objects visible through the camera. 
 
@@ -50,7 +50,7 @@ The project consists of the custom vision model deployed on Raspberry PI and det
 
 1. Export model as **Docker** file in zip format as explained in the [tutorial](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/export-your-model#export-your-model).
 
-1. Extract files from archive to the folder **modules\classifier** but do not override `app.py` and `Dockerfile`.
+1. Extract files from archive to the folder **modules\ObjDetector** but do not override `app.py` and `Dockerfile`. Those files has some customization.
 
 
 
@@ -102,7 +102,7 @@ BLOB_KEY=<blob account key>
 
 1.To properly configure `/etc/aziot/config.toml` you need to register your IoT device in Iot Hub. The following [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-register-device?view=iotedge-2020-11&tabs=azure-portal) explained the registration process with a symmetric key. From the Azure portal create an IoT Hub and add a new Iot Edge device. Provide a unique name and keep all default settings and generated keys. Copy primary key into `config.toml`. 
 
-1. Restart your device and wait for status update of device on the IoT Hub. You also can execute command "iotedge list" to monitor process. Please pay attention for the version of `azureiotedge-hub` and `azureiotedge-agent`you use. Version 1.0.0 having an issue and you can update that to version 1.2.2. You can use runtime settings as explained in following [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-update-iot-edge?view=iotedge-2020-11&tabs=windows#update-a-specific-tag-image)   
+1. Restart your device and wait for status update of device on the IoT Hub. You also can execute command "iotedge list" to monitor process. Please pay attention for the version of `azureiotedge-hub` and `azureiotedge-agent`you use. Version 1.0.0 having an issue and you can update that to version 1.2.3. You can use runtime settings as explained in following [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-update-iot-edge?view=iotedge-2020-11&tabs=windows#update-a-specific-tag-image)   
 
 1. Finlay you should have your IoTEdge modules running on RPi without errors. 
     
@@ -116,10 +116,11 @@ BLOB_KEY=<blob account key>
 
 1. From the VS code context menu select command `Build and Publish Iot Edge Solution`. Then you can use command palette `Azure IoT Edge: Create deployment for a single device` and choose your device and file `config\deployment.arm32v7.json`.
 
->If you lost with deployment follow the steps in [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-deploy-custom-vision?view=iotedge-2020-11#deploy-modules-to-device)
+    >If you lost with deployment follow the steps in [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-deploy-custom-vision?view=iotedge-2020-11#deploy-modules-to-device)
 
-1. As result of deployment your RPi should contain 4 modules (`azureiotedge-agent`, `azureiotedge-hub`, `camera-capture`, `classifier`). You can monitor modules from IoT Hub or from the SSH console by command `iotedge list`. Remember that some images are quite heavy and require time to be downloaded from ACR to PI.
+1. As result of deployment your RPi should contain 4 modules (`azureiotedge-agent`, `azureiotedge-hub`, `camera-capture`, `ObjDetector`). You can monitor modules from IoT Hub or from the SSH console by command `iotedge list`. Remember that some images are quite heavy and require time to be downloaded from ACR to PI.
 
+    ![service list](/Docs/list.png)
 
 ## Setting up the scene
 
@@ -135,7 +136,7 @@ BLOB_KEY=<blob account key>
 
 ## Monitor and diagnose applications.
 
-1. From the SSH console you can use commands like `iotedge logs camera-capture` or `iotedge logs classifier` to monitor errors and issues. Correct output of the classifier should looks as following:
+1. From the SSH console you can use commands like `iotedge logs camera-capture` or `iotedge logs ObjDetector` to monitor errors and issues. Correct output of the detector should looks as following:
 
     ![output](/Docs/rp-result.png)
 
@@ -145,7 +146,7 @@ BLOB_KEY=<blob account key>
 
     ![local website](/Docs/fruits-sm.png)
 
-1. Finlay if the classification is completed successfully the boundaries will be created on the image and analyzed images will be uploaded to the storage account you set up above.
+1. Finlay if the detection completed successfully the boundaries will be created on the image and analyzed images will be uploaded to the storage account you set up above.
 
     ![analyzed](/Docs/analyzed-group.png)
 

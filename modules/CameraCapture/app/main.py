@@ -49,13 +49,13 @@ class HubManager(object):
         '''
         self.messageTimeout = messageTimeout
         self.client = IoTHubModuleClient.create_from_edge_environment()
-        self.client.set_option("messageTimeout", self.messageTimeout)
-        self.client.set_option("product_info", "edge-camera-capture")
-        if verbose:
-            self.client.set_option("logtrace", 1)  # enables MQTT logging
+        #self.client.set_option("messageTimeout", self.messageTimeout)
+        #self.client.set_option("product_info", "edge-camera-capture")
+        #if verbose:
+        #    self.client.set_option("logtrace", 1)  # enables MQTT logging
 
     def send_message_to_output(self, event, outputQueueName):
-        self.client.send_message_to_output(outputQueueName, event)
+        self.client.send_message_to_output(event, outputQueueName)
         global SEND_CALLBACKS
         SEND_CALLBACKS += 1
 

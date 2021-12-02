@@ -96,7 +96,7 @@ BLOB_KEY=<blob account key>
 
 1. In case of the Pi Camera you can follow the [tutorial](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera) and use Python code to test. 
 
-1. Before install IoT Edge you first need to install the container engine by executing the following commands in the [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2020-11#install-a-container-engine).
+1. Before install IoT Edge you first need to install the container engine by executing the following commands in the [tutorial](https://phoenixnap.com/kb/docker-on-raspberry-pi).
 
 1. You also need to install [IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2020-11#install-iot-edge) on your RPi device.
 

@@ -96,9 +96,9 @@ BLOB_KEY=<blob account key>
 
 1. In case of the Pi Camera you can follow the [tutorial](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera) and use Python code to test. 
 
-1. Before install IoT Edge you first need to install the container engine by executing the following commands in the [tutorial](https://phoenixnap.com/kb/docker-on-raspberry-pi).
+1. Before install IoT Edge you first need to install the container engine by executing the following commands in the [tutorial](https://phoenixnap.com/kb/docker-on-raspberry-pi). 
 
-1. You also need to install [IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2020-11#install-iot-edge) on your RPi device.
+1. You also need to install [IoT Edge](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-install-iot-edge?view=iotedge-2020-11#install-iot-edge) on your RPi device. You also need to update security [demon](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-update-iot-edge?view=iotedge-2020-11&tabs=linux#update-the-security-daemon).
 
 1.To properly configure `/etc/aziot/config.toml` you need to register your IoT device in Iot Hub. The following [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-register-device?view=iotedge-2020-11&tabs=azure-portal) explained the registration process with a symmetric key. From the Azure portal create an IoT Hub and add a new Iot Edge device. Provide a unique name and keep all default settings and generated keys. Copy primary key into `config.toml`. 
 

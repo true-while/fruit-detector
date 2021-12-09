@@ -118,7 +118,7 @@ BLOB_KEY=<blob account key>
 
     >If you lost with deployment follow the steps in [tutorial](https://docs.microsoft.com/en-us/azure/iot-edge/tutorial-deploy-custom-vision?view=iotedge-2020-11#deploy-modules-to-device)
 
-1. As result of deployment your RPi should contain 4 modules (`azureiotedge-agent`, `azureiotedge-hub`, `camera-capture`, `ObjDetector`). You can monitor modules from IoT Hub or from the SSH console by command `iotedge list`. Remember that some images are quite heavy and require time to be downloaded from ACR to PI.
+1. As result of deployment your RPi should contain 4 modules (`azureiotedge-agent`, `azureiotedge-hub`, `camera-capture`, `ObjDetector`). You can monitor modules from IoT Hub or from the SSH console by command `iotedge list`. Remember that some images are quite heavy and require time to be downloaded from ACR to PI. You also can retrieve the logs of the container run by command `iotedge log <your container name>`.
 
     ![service list](/Docs/list.png)
 
